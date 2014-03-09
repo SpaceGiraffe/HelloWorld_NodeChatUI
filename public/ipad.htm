@@ -40,8 +40,9 @@ $('input:radio').on('change', function(){
     //access value of changed radio group with $(this).val()
 	var radioParentID = $(this).parent().attr("id");
 	var radioVal = $(this).val();
-	console.log( "Parent: " + radioParentID + " Val: " + radioVal );	var radioTextVal;	if(radioVal==0) radioTextVal = "High";	if(radioVal==1) radioTextVal = "Medium";	if(radioVal==2) radioTextVal = "Low";
-	sendUICommand( radioParentID, radioTextVal );
+	console.log("Parent: " + radioParentID + " Val: " + radioVal;
+	
+	// sendUICommand( document.getElementById("text1").getAttribute("id"), val );
 });
 
 //ui choice
