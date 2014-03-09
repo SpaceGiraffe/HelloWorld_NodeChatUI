@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">	<title>Node Chat iPad</title>	<script src="/js/code.js"></script>	<script src="/js/iPadUI.js"></script>	<script src="/socket.io/socket.io.js"></script>
+  
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script type='text/javascript' src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script type='text/javascript' src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
+  <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js"></script>
+  <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.raphael-min.js"></script>
+  <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.line-min.js"></script>
+    
+<script type='text/javascript'> 
+//<![CDATA[
+
+var r;
+var x = 50;
+var y = 50;
+var w = 500;
+var h = 200;
+xNum = 14;
+var xdata = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+var ydata1 = [0,1,2,1,0,1,2,2,1,2,2,1,2,0];
+var ydata2 = [2,2,0,0,1,1,1,2,1,0,0,0,1,1];
+
+$(window).load(function(){
+r = Raphael('graph');
+ 
+setInterval(function(){
+    draw();
+  }, 1000);
+
+});  
+
+function newValue(){
+	//console.log(Math.floor((Math.random()*3)));
+	for(var i = 0; i < ydata1.length-1; i++)
+	{
+		ydata1[i] = ydata1[i+1];
+		ydata2[i] = ydata2[i+1];
+	}
+	ydata1[ydata1.length-1] = Math.floor((Math.random()*3));
+	ydata2[ydata2.length-1] = Math.floor((Math.random()*3));
+
+	for(var i = 0; i < xdata.length-1; i++)
+	{
+		xdata[i] = xdata[i+1];
+	}
+	xNum++;
+	xdata[xdata.length-1] = xNum;
+}
+
+function draw() {
+	r.clear();
+	newValue();
+	var g = r.linechart(x, y, 
+                    w, h, 
+                    xdata, // x values
+                    [ydata1, ydata2], // y values
+                    {
+                        axis : '0 0 1 1',
+                        symbol: 'circle',
+			axisystep: 2,
+			axisxstep: xdata.length-1
+                    });
+g.axis[1].text.items[0].attr("text", "LOW");
+g.axis[1].text.items[1].attr("text", "MED");
+g.axis[1].text.items[2].attr("text", "HIGH");
+
+for (var i = 0; i < g.axis[1].text.items.length; i++) {
+    r.path(['M', x+10, g.axis[1].text.items[i].attrs.y, 'H', w + x-10]).attr({
+        stroke : '#AAAAAA'
+    }).toBack();
+}
+
+for (var i = 0; i < g.axis[0].text.items.length; i++) {
+    r.path(['M', g.axis[0].text.items[i].attrs.x, y, 'V', h + y-10]).attr({
+        stroke : '#AAAAAA'
+    }).toBack();
+}
+}
+
+$(function() {
+$( "#slider" ).slider();
+$( "#radio" ).buttonset();
+});
+
+var val = 0;
+function inc()
+{
+	val++;
+	if(val > 10){val = 10;}
+ 	document.getElementById("text1").value = val;
+}
+function dec()
+{
+	val--;
+	if(val < 0){val = 0;}
+ 	document.getElementById("text1").value = val;
+}
+//]]>
+</script>
+
+
+</head>
+<body>	<h1>Hello World</h1>	<h2>iPad Client</h2>	<div id="content" style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;"></div>	<div class="controls">		Name: <input id="name" style="width:350px;">		<br>		<input id="field" style="width:350px;">		<input id="send" type="button" value="send">	</div>
+  <div id="graph"></div>
+  <div id="slider" style="width:500px"></div>
+  <div id="radio" style="position: relative; top:50px">
+	<input type="radio" id="radio1" name="radio"><label for="radio1">High</label>
+	<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Low</label>
+  </div>
+  <div id="button" style="position: relative; top:100px">
+	
+	<input type="button" value="-" onclick="dec();">
+	<input type="text" id="text1" size="1" readOnly="true" value="0">
+	<input type="button" value="+" onclick="inc();">
+  </div>
+</body>
+
+
+</html>
+
