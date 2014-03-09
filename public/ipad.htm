@@ -42,8 +42,11 @@ $('input:radio').on('change', function(){
 	var radioParentID = $(this).parent().attr("id");
 	var radioVal = $(this).val();
 	console.log("Parent: " + radioParentID + " Val: " + radioVal );
-	
-	// sendUICommand( document.getElementById("text1").getAttribute("id"), val );
+	var radioTextVal;
+	if(radioVal == 0) radioTextVal = "High";
+	if(radioVal == 1) radioTextVal = "Medium";
+	if(radioVal == 2) radioTextVal = "Low";
+	sendUICommand( radioParentID, radioTextVal );
 });
 
 //ui choice
