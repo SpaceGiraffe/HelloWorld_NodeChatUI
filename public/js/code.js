@@ -32,12 +32,13 @@ window.onload = function() {
     };
  
 	
-	// Sends the updated element's ID and new value to the server
-	// 	Eventually we need to send the attribute name (humidity, temperature, etc)
-	// 	 instead of the element ID
-	function sendUICommand( elementID, newValue ) {
-	console.log("UI Update");
-		socket.emit('send', { message: newValue, username: elementID });
-	}
+	
 
+}
+// Sends the updated element's ID and new value to the server
+// 	Eventually we need to send the attribute name (humidity, temperature, etc)
+// 	 instead of the element ID
+function sendUICommand( elementID, newValue ) {
+	console.log("UI Update");
+	socket.emit('send', { message: newValue, username: elementID });
 }
