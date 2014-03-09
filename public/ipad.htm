@@ -71,12 +71,12 @@
 	function inc() {
 		val++;
 		if(val > 10){val = 10;}
-		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1"), val );
+		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1").getAttribute("id"), val );
 	}
 	function dec() {
 		val--;
 		if(val < 0){val = 0;}
-		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1"), val );
+		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1").getAttribute("id"), val );
 	}
 	//]]>
 	</script>
