@@ -1,100 +1,178 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">	<title>Node Chat iPad</title>	<script src="/js/code.js"></script>	<script src="/js/iPadUI.js"></script>	<script src="/socket.io/socket.io.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>Node Chat iPad</title>
+	<script src="/js/code.js"></script>
+	<script src="/js/iPadUI.js"></script>
+  
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
   <script type='text/javascript' src="http://code.jquery.com/jquery-1.9.1.js"></script>
   <script type='text/javascript' src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
   <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/raphael/master/raphael.js"></script>
   <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.raphael-min.js"></script>
-  <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.line-min.js"></script>	<script type='text/javascript'> 
-	//<![CDATA[
-	var r;
-	var x = 50;
-	var y = 50;
-	var w = 500;
-	var h = 200;
-	xNum = 14;
-	var xdata = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
-	var ydata1 = [0,1,2,1,0,1,2,2,1,2,2,1,2,0];
-	var ydata2 = [2,2,0,0,1,1,1,2,1,0,0,0,1,1];
-	$(window).load(function(){
-		r = Raphael('graph');
-		setInterval(function(){
-			draw();
-		  }, 1000);
-	});  
-	function newValue(){
-		//console.log(Math.floor((Math.random()*3)));
-		for(var i = 0; i < ydata1.length-1; i++)
-		{
-			ydata1[i] = ydata1[i+1];
-			ydata2[i] = ydata2[i+1];
-		}
-		ydata1[ydata1.length-1] = Math.floor((Math.random()*3));
-		ydata2[ydata2.length-1] = Math.floor((Math.random()*3));		for(var i = 0; i < xdata.length-1; i++) {
-			xdata[i] = xdata[i+1];
-		}
-		xNum++;
-		xdata[xdata.length-1] = xNum;
+  <script type='text/javascript' src="https://raw.github.com/DmitryBaranovskiy/g.raphael/master/min/g.line-min.js"></script>
+  <style>
+	.controllers {
+		display: none;
 	}
-	function draw() {
-		r.clear();
-		newValue();
-		var g = r.linechart(x, y, 
-						w, h, 
-						xdata, // x values
-						[ydata1, ydata2], // y values
-						{
-							axis : '0 0 1 1',
-							symbol: 'circle',
-				axisystep: 2,
-				axisxstep: xdata.length-1
-						});
-	g.axis[1].text.items[0].attr("text", "LOW");
-	g.axis[1].text.items[1].attr("text", "MED");
-	g.axis[1].text.items[2].attr("text", "HIGH");
-	for (var i = 0; i < g.axis[1].text.items.length; i++) {
-		r.path(['M', x+10, g.axis[1].text.items[i].attrs.y, 'H', w + x-10]).attr({
-			stroke : '#AAAAAA'
-		}).toBack();
+  </style>
+<script type='text/javascript'> 
+//<![CDATA[
+
+var r1;
+var r2;
+var x = 50;
+var y = 50;
+var w = 500;
+var h = 200;
+xNum = 14;
+var xdata = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+var ydata1 = [0,1,2,1,0,1,2,2,1,2,2,1,2,0];
+var ydata2 = [2,2,0,0,1,1,1,2,1,0,0,0,1,1];
+
+var graphNum;
+
+$(window).load(function(){
+// Radio button event listeners
+$('input:radio').on('change', function(){
+    //access value of changed radio group with $(this).val()
+	var radioParentID = $(this).parent().attr("id");
+	var radioVal = $(this).val();
+	console.log( "Parent: " + radioParentID + " Val: " + radioVal );	var radioTextVal;	if(radioVal==0) radioTextVal = "High";	if(radioVal==1) radioTextVal = "Medium";	if(radioVal==2) radioTextVal = "Low";
+	sendUICommand( radioParentID, radioTextVal );
+});
+
+//ui choice
+$('input[name=choice]').on('click', function(e) {
+	var target = e.currentTarget;
+	var controller = $(target).data('controller');
+	$('.controllers').hide();
+	$('.controllers[data-controller='+controller+']').show();
+	$('.graphs').hide();
+	$('.graphs[data-controller='+controller+']').show();
+	graphNum = controller;
+});
+
+//graph
+r1 = Raphael('graph1');
+r2 = Raphael('graph2');
+
+setInterval(function(){
+	draw(r1);
+	draw(r2);
+  }, 1000);
+
+});  
+
+function newValue(){
+	for(var i = 0; i < ydata1.length-1; i++)
+	{
+		ydata1[i] = ydata1[i+1];
+		ydata2[i] = ydata2[i+1];
 	}
-	for (var i = 0; i < g.axis[0].text.items.length; i++) {
-		r.path(['M', g.axis[0].text.items[i].attrs.x, y, 'V', h + y-10]).attr({
-			stroke : '#AAAAAA'
-		}).toBack();
+	ydata1[ydata1.length-1] = Math.floor((Math.random()*3));
+	ydata2[ydata2.length-1] = Math.floor((Math.random()*3));
+
+	for(var i = 0; i < xdata.length-1; i++)
+	{
+		xdata[i] = xdata[i+1];
 	}
-	}	$(function() {
-		$( "#slider" ).slider();
-		$( "#radio" ).buttonset();
-	});	var val = 0;
-	function inc() {
-		val++;
-		if(val > 10){val = 10;}
-		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1").getAttribute("id"), val );
-	}
-	function dec() {
-		val--;
-		if(val < 0){val = 0;}
-		document.getElementById("text1").value = val;		sendUICommand( document.getElementById("text1").getAttribute("id"), val );
-	}
-	//]]>
-	</script>
+	xNum++;
+	xdata[xdata.length-1] = xNum;
+}
+
+function draw(graph) {
+	graph.clear();
+	newValue();
+	var g = graph.linechart(x, y, 
+                    w, h, 
+                    xdata, // x values
+                    [ydata1, ydata2], // y values
+                    {
+                        axis : '0 0 1 1',
+                        symbol: 'circle',
+			axisystep: 2,
+			axisxstep: xdata.length-1
+                    });
+g.axis[1].text.items[0].attr("text", "LOW");
+g.axis[1].text.items[1].attr("text", "MED");
+g.axis[1].text.items[2].attr("text", "HIGH");
+
+for (var i = 0; i < g.axis[1].text.items.length; i++) {
+    graph.path(['M', x+10, g.axis[1].text.items[i].attrs.y, 'H', w + x-10]).attr({
+        stroke : '#AAAAAA'
+    }).toBack();
+}
+
+for (var i = 0; i < g.axis[0].text.items.length; i++) {
+    graph.path(['M', g.axis[0].text.items[i].attrs.x, y, 'V', h + y-10]).attr({
+        stroke : '#AAAAAA'
+    }).toBack();
+}
+}
+
+//]]>
+</script>
+
+
 </head>
-<body>	<h1>Hello World</h1>	<h2>iPad Client</h2>	<div id="content" style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;"></div>	<div class="controls">		Name: <input id="name" style="width:350px;">		<br>		<input id="field" style="width:350px;">		<input id="send" type="button" value="send">	</div>
-  <div id="graph"></div>
-  <div id="slider" style="width:500px"></div>
-  <div id="radio" style="position: relative; top:50px">
-	<input type="radio" id="radio1" name="radio"><label for="radio1">High</label>
-	<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Low</label>
+<body>
+	<h1>Hello World</h1>
+	<h2>iPad Client</h2>
+	<div id="content" style="width: 500px; height: 300px; margin: 0 0 20px 0; border: solid 1px #999; overflow-y: scroll;"></div>
+	<div class="controls">
+		Name: <input id="name" style="width:350px;">
+		<br>
+		<input id="field" style="width:350px;">
+		<input id="send" type="button" value="send">
+	</div>
+  <div id="uichoice">
+  	<input type="radio" data-controller="1" id="user1" value="1" name="choice"><label for="user1">User 1</label>
+  	<input type="radio" data-controller="2" id="user2" value="2" name="choice"><label for="user2">User 2</label>
   </div>
-  <div id="button" style="position: relative; top:100px">
-	<input type="button" value="-" onclick="dec();">
-	<input type="text" id="text1" size="1" readOnly="true" value="0">
-	<input type="button" value="+" onclick="inc();">
-  </div>
-</body>
-
-
-</html>
-
+	
+
+	<!-- 0: Low 1: Med 2: High -->
+	
+  <!--ui1-->
+  <div data-controller="1" class="controllers" id="ui1">
+  	<label data-controller="1" class="controllers">Pressure/Temp</label>
+  	
+  	<div data-controller="1" class="graphs" id="graph1"></div>
+  	
+	<div id="pressure" style="position: relative;"> Pressure
+		<input type="radio" id="p1" name="p" value="0"><label for="p1">High</label>
+		<input type="radio" id="p2" name="p" value="1"><label for="p2">Med</label>
+		<input type="radio" id="p3" name="p" value="2" checked="checked"><label for="p3">Low</label>
+  	</div>
+  	<div id="temp" style="position: relative;"> Temperature
+		<input type="radio" id="t1" name="t" value="0"><label for="t1">High</label>
+		<input type="radio" id="t2" name="t" value="1"><label for="t2">Med</label>
+		<input type="radio" id="t3" name="t" value="2" checked="checked"><label for="t3">Low</label>
+  	</div>
+  </div>
+  
+  <!--ui2-->
+  <div data-controller="2" class="controllers" id="ui2">
+  	<label data-controller="2" class="controllers">Humidity/Wind</label>
+  
+  	<div data-controller="2" class="graphs" id="graph2"></div>
+  	
+	<div id="humidity" style="position: relative;">Humidity
+		<input type="radio" id="h1" name="h" value="0"><label for="h1">High</label>
+		<input type="radio" id="h2" name="h" value="1"><label for="h2">Med</label>
+		<input type="radio" id="h3" name="h" value="3" checked="checked"><label for="h3">Low</label>
+  	</div>
+  	<div id="wind" style="position: relative;">Wind
+		<input type="radio" id="w1" name="w" value="0"><label for="w1">High</label>
+		<input type="radio" id="w2" name="w" value="1"><label for="w2">Med</label>
+		<input type="radio" id="w3" name="w" value="2" checked="checked"><label for="w3">Low</label>
+  	</div>
+  </div>
+  
+
+</body>
+</html>
+
