@@ -43,3 +43,21 @@ function sendUICommand( elementID, newValue ) {
 	console.log("UI Update");
 	socket.emit('send', { message: newValue, username: elementID });
 }
+
+
+setUIEventHandlers() {
+	// Radio button event listeners
+	$('input:radio').on('change', function(){
+		//access value of changed radio group with $(this).val()
+		if( ($(this).attr("id") != "user1") || ($(this).attr("id") != "user2") ) {
+			var radioParentID = $(this).parent().attr("id");
+			var radioVal = $(this).val();
+			console.log("Parent: " + radioParentID + " Val: " + radioVal );
+			var radioTextVal;
+			if(radioVal == 0) radioTextVal = "Low";
+			if(radioVal == 1) radioTextVal = "Medium";
+			if(radioVal == 2) radioTextVal = "High";
+			sendUICommand( radioParentID, radioTextVal );
+		}
+	});
+};
