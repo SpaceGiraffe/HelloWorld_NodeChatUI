@@ -1,6 +1,6 @@
 var socket;
 window.onload = function() {
-	setTimeout( function() { socketInit() } , 1000 );
+	setTimeout( function() { socketInit() } , 5000 );
 }
 
 function socketInit() {
