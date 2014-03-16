@@ -59,9 +59,9 @@ $('input:radio').on('change', function(){
 		var radioVal = $(this).val();
 		console.log("Parent: " + radioParentID + " Val: " + radioVal );
 		var radioTextVal;
-		if(radioVal == 0) radioTextVal = "High";
+		if(radioVal == 0) radioTextVal = "Low";
 		if(radioVal == 1) radioTextVal = "Medium";
-		if(radioVal == 2) radioTextVal = "Low";
+		if(radioVal == 2) radioTextVal = "High";
 		sendUICommand( radioParentID, radioTextVal );
 	}
 });
