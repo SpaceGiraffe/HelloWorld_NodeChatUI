@@ -90,12 +90,13 @@ $('.levels').on('click', function() {
 r1 = Raphael('graph1');
 r2 = Raphael('graph2');
 
-setInterval(function(){
+// Graph disabled to stop memory leaks
+/*setInterval(function(){
 	draw(r1, pressureArr, tempArr);
 	draw(r2, humidArr, windArr);
   }, 1000);
 
-});  
+});  */
 
 //updates values of arrays
 function updateVal()
