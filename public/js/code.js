@@ -1,6 +1,9 @@
 var socket;
 window.onload = function() {
- 
+	setTimeout( function() { socketInit() } , 1000 );
+}
+
+function socketInit() {
     var messages = [];
     socket = io.connect(window.location.hostname);
     var field = document.getElementById("field");
@@ -31,11 +34,8 @@ window.onload = function() {
 			field.value = "";
         }
     };
- 
-	
-	
-
 }
+
 // Sends the updated element's ID and new value to the server
 // 	Eventually we need to send the attribute name (humidity, temperature, etc)
 // 	 instead of the element ID

@@ -51,8 +51,9 @@ var graphNum;
 
 $(window).load(function(){
 
-// Sets a 1 second delay for attaching event listeners to UI controls
-setTimeout( function() { setUIEventHandlers() } , 1000 );
+// Attaches event listeners to UI controls
+setUIEventHandlers();
+
 
 //ui choice
 $('input[name=choice]').on('click', function(e) {
