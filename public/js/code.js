@@ -44,8 +44,9 @@ function sendUICommand( elementID, newValue ) {
 	socket.emit('send', { message: newValue, username: elementID });
 }
 
-
-setUIEventHandlers() {
+// Attaches event handlers to UI components that will send UI 
+//	commands to the server
+function setUIEventHandlers() {
 	// Radio button event listeners
 	$('input:radio').on('change', function(){
 		//access value of changed radio group with $(this).val()
