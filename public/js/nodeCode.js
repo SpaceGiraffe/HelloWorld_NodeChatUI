@@ -48,6 +48,7 @@ function sendUICommand( elementID, newValue ) {
 // Attaches event handlers to UI components that will send UI 
 //	commands to the server
 function setUIEventHandlers() {
+	console.log("Setting UI event listeners...");
 	// Radio button event listeners
 	$('.ipadUiElement').on('change', function(){
 		//access value of changed radio group with $(this).val()
