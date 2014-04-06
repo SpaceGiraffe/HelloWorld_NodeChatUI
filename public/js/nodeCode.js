@@ -53,11 +53,12 @@ function setUIEventHandlers() {
 	console.log("Setting UI event listeners...");
 	
 	
-	if($(this).attr("class") == "incrementBtn") {
+	if($(this).attr("class") == "ipadUiElement incrementBtn") {
 		$('.ipadUiElement').on('click', function(){
 			var uiElementID = "text1";
 			console.log(uiElementID);
 			var uiElementVal = $("#" + uiElementID).val();
+		};
 	} else {
 		$('.ipadUiElement').on('change', function(){
 			var uiElementID = $(this).attr("id");
