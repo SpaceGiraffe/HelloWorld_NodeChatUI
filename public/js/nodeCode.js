@@ -52,26 +52,29 @@ function sendUICommand( elementID, newValue ) {
 function setUIEventHandlers() {
 	console.log("Setting UI event listeners...");
 	
-	if($(this).attr("class") == "ipadUiElement incrementBtn") {
-		$('.ipadUiElement').on('click', function(){
-			var uiElementID = "text1";
-			console.log(uiElementID);
-			var uiElementVal = $("#" + uiElementID).val();
-			console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
-			sendUICommand( uiElementID, uiElementVal );
-		});
-	} else {
-		$('.ipadUiElement').on('change', function(){
-			var uiElementID = $(this).attr("id");
-			console.log(uiElementID);
-			if($(this).attr("id") == "slider") {
-				var uiElementVal = $(this).slider("option", "value");
-			} else {
-				//access value of changed radio group with $(this).val()
-				var uiElementVal = $(this).val();
-			}
-			console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
-			sendUICommand( uiElementID, uiElementVal );
-		});
-	}
+	$('.incrementBtn').on('click', function(){
+		var uiElementID = "text1";
+		console.log(uiElementID);
+		var uiElementVal = $("#" + uiElementID).val();
+		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
+		sendUICommand( uiElementID, uiElementVal );
+	});
+	
+	$('.radioBtn').on('change', function(){
+		var uiElementID = $(this).attr("id");
+		console.log(uiElementID);
+		//access value of changed radio group with $(this).val()
+		var uiElementVal = $(this).val();
+		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
+		sendUICommand( uiElementID, uiElementVal );
+	});
+	
+	$('#slider').on('change', function(){
+		var uiElementID = $(this).attr("id");
+		console.log(uiElementID);
+		//access value of changed radio group with $(this).val()
+		var uiElementVal = $(this).val();
+		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
+		sendUICommand( uiElementID, uiElementVal );
+	});
 };
