@@ -35,6 +35,8 @@ function socketInit() {
 			field.value = "";
         }
     };
+	
+	setUIEventHandlers();
 }
 
 // Sends the updated element's ID and new value to the server
