@@ -57,6 +57,6 @@ function setUIEventHandlers() {
 		var uiElementID = $(this).attr("id");
 		var uiElementVal = $(this).val();
 		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
-		sendUICommand( radioParentID, uiElementVal );
+		sendUICommand( uiElementID, uiElementVal );
 	});
 };
