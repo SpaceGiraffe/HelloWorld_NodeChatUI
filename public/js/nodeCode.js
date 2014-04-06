@@ -54,6 +54,7 @@ function setUIEventHandlers() {
 	// Radio button event listeners
 	$('.ipadUiElement').on('change', function(){
 		var uiElementID = $(this).attr("id");
+		console.log(uiElementID);
 		if($(this).attr("id") == "slider") {
 			var uiElementVal = $(this).slider("option", "value");
 		} else if ($(this).attr("class") == "incrementBtn") {
