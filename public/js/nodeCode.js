@@ -49,17 +49,11 @@ function sendUICommand( elementID, newValue ) {
 //	commands to the server
 function setUIEventHandlers() {
 	// Radio button event listeners
-	$('input:radio').on('change', function(){
+	$('.ipadUiElement').on('change', function(){
 		//access value of changed radio group with $(this).val()
-		if( ($(this).attr("id") != "user1") || ($(this).attr("id") != "user2") ) {
-			var radioParentID = $(this).parent().attr("id");
-			var radioVal = $(this).val();
-			console.log("Parent: " + radioParentID + " Val: " + radioVal );
-			var radioTextVal;
-			if(radioVal == 0) radioTextVal = "Low";
-			if(radioVal == 1) radioTextVal = "Medium";
-			if(radioVal == 2) radioTextVal = "High";
-			sendUICommand( radioParentID, radioTextVal );
-		}
+		var uiElementID = $(this).attr("id");
+		var uiElementVal = $(this).val();
+		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
+		sendUICommand( radioParentID, uiElementVal );
 	});
 };
