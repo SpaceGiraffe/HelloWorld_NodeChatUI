@@ -53,9 +53,16 @@ function setUIEventHandlers() {
 	console.log("Setting UI event listeners...");
 	// Radio button event listeners
 	$('.ipadUiElement').on('change', function(){
-		//access value of changed radio group with $(this).val()
 		var uiElementID = $(this).attr("id");
-		var uiElementVal = $(this).val();
+		if($(this).attr("id") == "slider") {
+			var uiElementVal = $(this).slider("option", "value");
+		} else if ($(this).attr("class") == "incrementBtn") {
+			var uiElementID = "text1";
+			var uiElementVal = $('#' + uiElementID).val();
+		} else {
+			//access value of changed radio group with $(this).val()
+			var uiElementVal = $(this).val();
+		}
 		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
 		sendUICommand( uiElementID, uiElementVal );
 	});
