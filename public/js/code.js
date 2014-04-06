@@ -1,8 +1,9 @@
 var socket;
 window.onload = function() {
-	setTimeout( function() { socketInit() } , 5000 );
+	socketInit();
 }
 
+// Initializes a socket connection with the Node server
 function socketInit() {
     var messages = [];
     socket = io.connect(window.location.hostname);
