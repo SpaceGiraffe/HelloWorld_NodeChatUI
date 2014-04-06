@@ -1,6 +1,6 @@
 {
   "name": "NodeChat",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "This is a basic node chat application.",
   "main": "index.js",
   "repository": {
