@@ -58,7 +58,7 @@ function setUIEventHandlers() {
 			var uiElementID = "text1";
 			console.log(uiElementID);
 			var uiElementVal = $("#" + uiElementID).val();
-		};
+		});
 	} else {
 		$('.ipadUiElement').on('change', function(){
 			var uiElementID = $(this).attr("id");
