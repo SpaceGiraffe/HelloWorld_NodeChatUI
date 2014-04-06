@@ -69,12 +69,13 @@ function setUIEventHandlers() {
 		sendUICommand( uiElementID, uiElementVal );
 	});
 	
-	$('#slider').on('change', function(){
+	// Slider UI element incomplete so this chunk of code is too
+	/*$('#slider').on('change', function(){
 		var uiElementID = $(this).attr("id");
 		console.log(uiElementID);
 		//access value of changed radio group with $(this).val()
 		var uiElementVal = $(this).val();
 		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
 		sendUICommand( uiElementID, uiElementVal );
-	});
+	});*/
 };
