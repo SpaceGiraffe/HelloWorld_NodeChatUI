@@ -57,9 +57,6 @@ function setUIEventHandlers() {
 		console.log(uiElementID);
 		if($(this).attr("id") == "slider") {
 			var uiElementVal = $(this).slider("option", "value");
-		} else if ($(this).attr("class") == "incrementBtn") {
-			var uiElementID = "text1";
-			var uiElementVal = $('#' + uiElementID).val();
 		} else {
 			//access value of changed radio group with $(this).val()
 			var uiElementVal = $(this).val();
