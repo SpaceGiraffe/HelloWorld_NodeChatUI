@@ -51,17 +51,26 @@ function sendUICommand( elementID, newValue ) {
 //	commands to the server
 function setUIEventHandlers() {
 	console.log("Setting UI event listeners...");
-	// Radio button event listeners
-	$('.ipadUiElement').on('change', function(){
-		var uiElementID = $(this).attr("id");
-		console.log(uiElementID);
-		if($(this).attr("id") == "slider") {
-			var uiElementVal = $(this).slider("option", "value");
-		} else {
-			//access value of changed radio group with $(this).val()
-			var uiElementVal = $(this).val();
+	
+	
+	if($(this).attr("class") == "incrementBtn") {
+		$('.ipadUiElement').on('click', function(){
+			var uiElementID = "text1";
+			console.log(uiElementID);
+			var uiElementVal = $("#" + uiElementID).val();
 		}
-		console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
-		sendUICommand( uiElementID, uiElementVal );
-	});
+	} else {
+		$('.ipadUiElement').on('change', function(){
+			var uiElementID = $(this).attr("id");
+			console.log(uiElementID);
+			if($(this).attr("id") == "slider") {
+				var uiElementVal = $(this).slider("option", "value");
+			} else {
+				//access value of changed radio group with $(this).val()
+				var uiElementVal = $(this).val();
+			}
+		});
+	}
+	console.log("Element ID: " + uiElementID + " Val: " + uiElementVal );
+	sendUICommand( uiElementID, uiElementVal );
 };
